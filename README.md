@@ -1,1 +1,2 @@
-# ahj-dom3
+# ahj-dom3 [![Build status](https://ci.appveyor.com/api/projects/status/l5v6lmpi411wi77p/branch/main?svg=true)](https://ci.appveyor.com/project/barsich/ahj-dom3/branch/main)
+[gh-pages](https://barsich.github.io/ahj-dom3/)
