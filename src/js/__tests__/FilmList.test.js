@@ -1,8 +1,12 @@
 import FilmList from '../FilmList';
 
-// test('error on invalid json', () => {
-//   expect(() => new FilmList('{12}')).toThrow();
-// });
+test('error on invalid json', () => {
+  expect(() => new FilmList('{12}')).toThrow();
+});
+
+test('error on empty film list', () => {
+  expect(() => new FilmList()).toThrow();
+});
 
 test('creating filmlist', () => {
   const json = `[

@@ -1,10 +1,12 @@
 /* eslint-disable no-param-reassign */
+import sortArrays from './utils';
+
 export default class FilmList {
   constructor(list) {
     try {
       this.list = JSON.parse(list);
     } catch (e) {
-      console.error('Невалидный список');
+      throw new Error('Невалидный список');
     }
     this.propList = ['id', 'title', 'year', 'imdb'];
     this.filmsSortedById = [];
@@ -21,30 +23,35 @@ export default class FilmList {
     }
 
     let sortedList;
-    if (event.target.innerText === 'title') {
-      if (this.filmsSortedByTitle.length === 0) {
-        this.list.sort((a, b) => a.title.localeCompare(b.title));
-        this.filmsSortedByTitle = this.list.slice();
-      }
-      sortedList = this.filmsSortedByTitle;
-    } else if (event.target.innerText === 'id') {
-      if (this.filmsSortedById.length === 0) {
-        this.list.sort((a, b) => a[event.target.innerText] - b[event.target.innerText]);
-        this.filmsSortedById = this.list.slice();
-      }
-      sortedList = this.filmsSortedById;
-    } else if (event.target.innerText === 'year') {
-      if (this.filmsSortedByYear.length === 0) {
-        this.list.sort((a, b) => a[event.target.innerText] - b[event.target.innerText]);
-        this.filmsSortedByYear = this.list.slice();
-      }
-      sortedList = this.filmsSortedByYear;
-    } else if (event.target.innerText === 'imdb') {
-      if (this.filmsSortedByRating.length === 0) {
-        this.list.sort((a, b) => a[event.target.innerText] - b[event.target.innerText]);
-        this.filmsSortedByRating = this.list.slice();
-      }
-      sortedList = this.filmsSortedByRating;
+    switch (event.target.innerText) {
+      case 'id':
+        if (this.filmsSortedById.length === 0) {
+          this.filmsSortedById = sortArrays(event.target.innerText, this.list).slice();
+        }
+        sortedList = this.filmsSortedById;
+        break;
+
+      case 'year':
+        if (this.filmsSortedByYear.length === 0) {
+          this.filmsSortedByYear = sortArrays(event.target.innerText, this.list).slice();
+        }
+        sortedList = this.filmsSortedByYear;
+        break;
+
+      case 'imdb':
+        if (this.filmsSortedByRating.length === 0) {
+          this.filmsSortedByRating = sortArrays(event.target.innerText, this.list).slice();
+        }
+        sortedList = this.filmsSortedByRating;
+        break;
+
+      default:
+        if (this.filmsSortedByTitle.length === 0) {
+          this.list.sort((a, b) => a.title.localeCompare(b.title));
+          this.filmsSortedByTitle = this.list.slice();
+        }
+        sortedList = this.filmsSortedByTitle;
+        break;
     }
 
     // очищаем список
@@ -68,8 +75,7 @@ export default class FilmList {
 
   createTable() {
     if (this.list === undefined) {
-      console.error('Отсутствует список фильмов');
-      return;
+      throw new Error('Отсутствует список фильмов');
     }
 
     // создание таблицы
