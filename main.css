@@ -1,0 +1,9 @@
+.filmlist {
+    border-collapse: collapse;
+}
+
+.filmlist td {
+    border: 3px double purple;
+    padding: 5px;
+}
+
